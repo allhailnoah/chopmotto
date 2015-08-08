@@ -5,6 +5,7 @@
     <title>Chopmotto!!</title>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
   </head>
@@ -21,7 +22,9 @@
                 </div>
               </div>
               <div class="col s12">
-                <a class="btn waves-effect white black-text" href="{{ url_for("smash") }}"><i class="material-icons">shuffle</i></a>
+                <div id="shuffle" class="card-panel black white-text flow-text waves-effect waves-block">
+                  <i class="material-icons">shuffle</i>
+                </div>
               </div>
               <div class="col s12">
                 <div id="boom" class="card-panel white black-text flow-text waves-effect waves-block">
