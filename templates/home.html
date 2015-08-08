@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Chopmotto!!</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+  </head>
+  <body>
+    <div class="slider fullscreen">
+      <ul class="slides">
+        <li>
+          <img src="//unsplash.it/1920/1080/?random">
+          <div class="caption center-align valign-wrapper" style="height: 100%">
+            <div class="row">
+              <div class="col s12">
+                <div id="ka" class="card-panel white black-text flow-text waves-effect waves-block">
+                  {{ ka }}
+                </div>
+              </div>
+              <div class="col s12">
+                <a class="btn waves-effect white black-text" href="{{ url_for("smash") }}"><i class="material-icons">shuffle</i></a>
+              </div>
+              <div class="col s12">
+                <div id="boom" class="card-panel white black-text flow-text waves-effect waves-block">
+                  {{ boom }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <script>
+      $('.slider').slider({full_width: true, indicators: false});
+      $("#ka").click(function() { window.location = "{{ url_for("smash", b=b)}}";});
+      $("#shuffle").click(function() { window.location = "{{ url_for("smash")}}";});
+      $("#boom").click(function() { window.location = "{{ url_for("smash", t=t)}}";});
+    </script>
+  </body>
+</html>
