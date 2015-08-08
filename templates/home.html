@@ -32,15 +32,25 @@
                 </div>
               </div>
             </div>
+            <a class="right waves-effect black white-text btn modal-trigger" href="#infos">WTF?</a>
           </div>
         </li>
       </ul>
+    </div>
+    <div id="infos" class="modal bottom-sheet">
+      <div class="modal-content">
+        <h4>Made by @Michcioperz and @oranebeast from Team AHN</h4>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect btn-flat">Cool story bro</a>
+      </div>
     </div>
     <script>
       $('.slider').slider({full_width: true, indicators: false});
       $("#ka").click(function() { window.location = "{{ url_for("smash", b=b)}}";});
       $("#shuffle").click(function() { window.location = "{{ url_for("smash")}}";});
       $("#boom").click(function() { window.location = "{{ url_for("smash", t=t)}}";});
+      $(".modal-trigger").leanModal();
     </script>
   </body>
 </html>
