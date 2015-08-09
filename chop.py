@@ -15,7 +15,9 @@ print("%i tops loaded" % (len(tops)-1))
 with open("bottom.txt") as f:
     for line in f:
         if len(line.strip()) > 0:
-            bots.append(line.strip())
+            if not line.strip().endswith("."):
+                line = line.strip() + "."
+            bots.append(line)
 print("%i bottoms loaded" % (len(bots)-1))
 
 @app.route("/api/<int:t>/<int:b>")
