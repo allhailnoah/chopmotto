@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 from flask import Flask, redirect, url_for, render_template
+from porc import Client
+from secrets import ORCHESTRATE_KEY
 import random
 app = Flask(__name__)
+orche = Client(ORCHESTRATE_KEY, "https://api.aws-eu-west-1.orchestrate.io/")
+orche.ping().raise_for_status()
 
 tops = [""]
 bots = [""]
@@ -37,6 +41,11 @@ def api_smash(t=0, b=0):
     print(boom)
     return boom
 
+@app.route("/like/<int:t>/<int:b>")
+def like(t, b):
+    orche.post_event("quotes", "%i/%i"%(t,b), "liking", {})
+    return redirect(url_for("smash", t=t, b=b))
+
 @app.route("/<int:t>/<int:b>")
 @app.route("/r/<int:b>")
 @app.route("/<int:t>/r")
@@ -51,7 +60,7 @@ def smash(t=0, b=0):
         return random.choice([redirect(url_for("smash", t=random.choice([x for x in range(1, len(tops)) if x != b]), b=b)), redirect(url_for("smash", t=t, b=random.choice([x for x in range(1, len(bots)) if x != t])))])
     boom = "%s %s" % (tops[t], bots[b])
     print(boom)
-    return render_template("home.html", ka=tops[t], boom=bots[b], t=t, b=b)
+    return render_template("home.html", ka=tops[t], boom=bots[b], t=t, b=b, l=len(orche.list_events("quotes", "%i/%i"%(t,b), "liking").all()))
 
 if __name__ == "__main__":
     app.run(debug=True)
