@@ -16,6 +16,13 @@
     <meta property="og:description" content="This is Chopmotto, where we chop proverbs and then glue them together.">
     <meta property="og:site_name" content="Chopmotto!!">
     <meta property="og:url" content="http://chopmotto.ml{{ url_for("smash", t=t, b=b) }}">
+    <style>
+      #logoo {
+        height: auto;
+        max-height: 254px;
+        max-width: 634px;
+      }
+    </style>
   </head>
   <body>
     <div class="slider fullscreen">
@@ -24,6 +31,7 @@
           <img src="//unsplash.it/1920/1080/?random">
           <div class="caption center-align valign-wrapper" style="height: 100%">
             <div class="row">
+              <img id="logoo" class="hide-on-med-and-down responsive-img" src="//cdn.ijestfajnie.pl/media/chopmotto_d27DRrS_llydvEo.png">
               <div class="col s12">
                 <div id="ka" class="card-panel white black-text flow-text waves-effect waves-block">
                   {{ ka }}
@@ -41,7 +49,7 @@
               </div>
               <div class="col s12">
                 <a class="right waves-effect blue white-text btn-floating btn-large modal-trigger" href="#infos">WTF?</a>
-                <a class="left waves-effect red white-text btn-floating btn-large modal-trigger" href="{{ url_for("like", t=t, b=b) }}">{% if l > 0 %}{{ l }}{% else %}<i class="material-icons">favorite</i>{% endif %}</a>
+                <a class="left waves-effect red white-text btn-floating btn-large modal-trigger" href="{{ url_for("like", t=t, b=b) }}">{% if l > 0 %}{{ naturalsize(l) }}{% else %}<i class="material-icons">favorite</i>{% endif %}</a>
               </div>
             </div>
           </div>
