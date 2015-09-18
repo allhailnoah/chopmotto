@@ -64,4 +64,4 @@ def smash(t=0, b=0):
     return render_template("home.html", ka=tops[t], boom=bots[b], t=t, b=b, l=len(orche.list_events("quotes", "%i/%i"%(t,b), "liking").all()), naturalsize=intword)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
