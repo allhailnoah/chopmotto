@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Chopmotto!!</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, maximum-scale=1.0">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@oranebeast">
+    <meta name="twitter:title" content="Chopmotto!!">
+    <meta name="twitter:description" content="This is Chopmotto, where we chop proverbs and then glue them together.">
+    <meta property="og:title" content="Chopmotto!!">
+    <meta property="og:description" content="This is Chopmotto, where we chop proverbs and then glue them together.">
+    <meta property="og:site_name" content="Chopmotto!!">
+    <meta property="og:url" content="http://chopmotto.ml">
+  </head>
+  <body style="background: url('//unsplash.it/1920/1080/?random')">
+    <div class="container">
+      <div class="center">
+        <img id="logoo" class="responsive-img" src="//cdn.ijestfajnie.pl/media/chopmotto_d27DRrS_llydvEo.png">
+        <div id="shuffle" class="card-panel black white-text flow-text waves-effect waves-block">
+          <i class="material-icons">shuffle</i>
+        </div>
+      </div>
+      <div class="card-panel white black-text flow-text">
+        <h4>This is Chopmotto, where we chop proverbs and then glue them together.</h4>
+        <p class="flow-text">This is a fairly random experiment done in 2 hours by <a href="//twitter.com/Michcioperz">@Michcioperz</a> and <a href="//twitter.com/oranebeast">@oranebeast</a> from <a href="//wowsuchahn.ml">Team Known As AHN</a> in <a href="//python.org">Python</a> with <a href="//flask.pocoo.org">Flask</a> framework using <a href="//unsplash.com">Unsplash</a> <a href="//unsplash.it">API</a>.</p>
+      </div>
+    </div>
+    <script>
+      $("#shuffle").click(function() { window.location = "{{ url_for("smash")}}";});
+      $(".modal-trigger").leanModal();
+    </script>
+  </body>
+</html>

@@ -51,7 +51,6 @@ def like(t, b):
 @app.route("/r/<int:b>")
 @app.route("/<int:t>/r")
 @app.route("/r/r")
-@app.route("/")
 def smash(t=0, b=0):
     if t not in range(1, len(tops)):
         return redirect(url_for("smash", t=random.choice([x for x in range(1, len(tops)) if x != b]), b=b))
@@ -63,5 +62,8 @@ def smash(t=0, b=0):
     print(boom)
     return render_template("home.html", ka=tops[t], boom=bots[b], t=t, b=b, l=len(orche.list_events("quotes", "%i/%i"%(t,b), "liking").all()), naturalsize=intword)
 
+@app.route("/")
+def cta():
+    return render_template("cta.html")
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
