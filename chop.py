@@ -5,6 +5,7 @@ from humanize import intword
 from secrets import ORCHESTRATE_KEY
 import random
 app = Flask(__name__)
+app.config["SERVER_NAME"] = "chopmotto.ml"
 orche = Client(ORCHESTRATE_KEY, "https://api.aws-eu-west-1.orchestrate.io/")
 orche.ping().raise_for_status()
 
@@ -32,12 +33,12 @@ print("%i bottoms loaded" % (len(bots)-1))
 def api_smash(t=0, b=0):
     if t not in range(1, len(tops)):
         t = random.randrange(1, len(tops))
-        return redirect(url_for("api_smash", t=t, b=b, _external=False))
+        return redirect(url_for("api_smash", t=t, b=b, _external=True, _scheme="https"))
     if b not in range(1, len(bots)):
         b = random.randrange(1, len(bots))
-        return redirect(url_for("api_smash", t=t, b=b, _external=False))
+        return redirect(url_for("api_smash", t=t, b=b, _external=True, _scheme="https"))
     if t == b:
-        return random.choice([redirect(url_for("api_smash", t=random.randrange(1, len(tops)), b=b, _external=False)), redirect(url_for("api_smash", t=t, b=random.randrange(1, len(bots)),_external=False))])
+        return random.choice([redirect(url_for("api_smash", t=random.randrange(1, len(tops)), b=b, _external=True, _scheme="https")), redirect(url_for("api_smash", t=t, b=random.randrange(1, len(bots)),_external=True, _scheme="https"))])
     boom = "%s %s" % (tops[t], bots[b])
     print(boom)
     return boom
@@ -45,7 +46,7 @@ def api_smash(t=0, b=0):
 @app.route("/like/<int:t>/<int:b>")
 def like(t, b):
     orche.post_event("quotes", "%i/%i"%(t,b), "liking", {})
-    return redirect(url_for("smash", t=t, b=b, _external=False))
+    return redirect(url_for("smash", t=t, b=b, _external=True, _scheme="https"))
 
 @app.route("/<int:t>/<int:b>")
 @app.route("/r/<int:b>")
@@ -53,11 +54,11 @@ def like(t, b):
 @app.route("/r/r")
 def smash(t=0, b=0):
     if t not in range(1, len(tops)):
-        return redirect(url_for("smash", t=random.choice([x for x in range(1, len(tops)) if x != b]), b=b, _external=False))
+        return redirect(url_for("smash", t=random.choice([x for x in range(1, len(tops)) if x != b]), b=b, _external=True, _scheme="https"))
     if b not in range(1, len(bots)):
-        return redirect(url_for("smash", t=t, b=random.choice([x for x in range(1, len(bots)) if x != t]), _external=False))
+        return redirect(url_for("smash", t=t, b=random.choice([x for x in range(1, len(bots)) if x != t]), _external=True, _scheme="https"))
     if t == b:
-        return random.choice([redirect(url_for("smash", t=random.choice([x for x in range(1, len(tops)) if x != b]), b=b, _external=False)), redirect(url_for("smash", t=t, b=random.choice([x for x in range(1, len(bots)) if x != t]),_external=False))])
+        return random.choice([redirect(url_for("smash", t=random.choice([x for x in range(1, len(tops)) if x != b]), b=b, _external=True, _scheme="https")), redirect(url_for("smash", t=t, b=random.choice([x for x in range(1, len(bots)) if x != t]),_external=True, _scheme="https"))])
     boom = "%s %s" % (tops[t], bots[b])
     print(boom)
     return render_template("home.html", ka=tops[t], boom=bots[b], t=t, b=b, l=len(orche.list_events("quotes", "%i/%i"%(t,b), "liking").all()), naturalsize=intword)
