@@ -43,7 +43,7 @@ def api_smash(t=0, b=0):
     print(boom)
     return boom
 
-@app.route("/api/slack")
+@app.route("/api/slack", methods=["GET","POST"])
 def api_slack():
     t = random.randrange(1, len(tops))
     b = random.randrange(1, len(bots))
