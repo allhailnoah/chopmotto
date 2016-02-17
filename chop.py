@@ -32,12 +32,12 @@ print("%i bottoms loaded" % (len(bots)-1))
 def api_smash(t=0, b=0):
     if t not in range(1, len(tops)):
         t = random.randrange(1, len(tops))
-        return redirect(url_for("api_smash", t=t, b=b))
+        return redirect(url_for("api_smash", t=t, b=b, _external=False))
     if b not in range(1, len(bots)):
         b = random.randrange(1, len(bots))
-        return redirect(url_for("api_smash", t=t, b=b))
+        return redirect(url_for("api_smash", t=t, b=b, _external=False))
     if t == b:
-        return random.choice([redirect(url_for("api_smash", t=random.randrange(1, len(tops)), b=b)), redirect(url_for("api_smash", t=t, b=random.randrange(1, len(bots))))])
+        return random.choice([redirect(url_for("api_smash", t=random.randrange(1, len(tops)), b=b, _external=False)), redirect(url_for("api_smash", t=t, b=random.randrange(1, len(bots)),_external=False))])
     boom = "%s %s" % (tops[t], bots[b])
     print(boom)
     return boom
@@ -45,7 +45,7 @@ def api_smash(t=0, b=0):
 @app.route("/like/<int:t>/<int:b>")
 def like(t, b):
     orche.post_event("quotes", "%i/%i"%(t,b), "liking", {})
-    return redirect(url_for("smash", t=t, b=b))
+    return redirect(url_for("smash", t=t, b=b, _external=False))
 
 @app.route("/<int:t>/<int:b>")
 @app.route("/r/<int:b>")
@@ -53,11 +53,11 @@ def like(t, b):
 @app.route("/r/r")
 def smash(t=0, b=0):
     if t not in range(1, len(tops)):
-        return redirect(url_for("smash", t=random.choice([x for x in range(1, len(tops)) if x != b]), b=b))
+        return redirect(url_for("smash", t=random.choice([x for x in range(1, len(tops)) if x != b]), b=b, _external=False))
     if b not in range(1, len(bots)):
-        return redirect(url_for("smash", t=t, b=random.choice([x for x in range(1, len(bots)) if x != t])))
+        return redirect(url_for("smash", t=t, b=random.choice([x for x in range(1, len(bots)) if x != t]), _external=False))
     if t == b:
-        return random.choice([redirect(url_for("smash", t=random.choice([x for x in range(1, len(tops)) if x != b]), b=b)), redirect(url_for("smash", t=t, b=random.choice([x for x in range(1, len(bots)) if x != t])))])
+        return random.choice([redirect(url_for("smash", t=random.choice([x for x in range(1, len(tops)) if x != b]), b=b, _external=False)), redirect(url_for("smash", t=t, b=random.choice([x for x in range(1, len(bots)) if x != t]),_external=False))])
     boom = "%s %s" % (tops[t], bots[b])
     print(boom)
     return render_template("home.html", ka=tops[t], boom=bots[b], t=t, b=b, l=len(orche.list_events("quotes", "%i/%i"%(t,b), "liking").all()), naturalsize=intword)
