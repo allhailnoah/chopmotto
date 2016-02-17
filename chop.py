@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, url_for, render_template, jsonify
 from porc import Client
 from humanize import intword
 from secrets import ORCHESTRATE_KEY
@@ -42,6 +42,17 @@ def api_smash(t=0, b=0):
     boom = "%s %s" % (tops[t], bots[b])
     print(boom)
     return boom
+
+@app.route("/api/slack")
+def api_slack():
+    t = random.randrange(1, len(tops))
+    b = random.randrange(1, len(bots))
+    while t == b:
+        if round(random.random(), 0) == 1.0:
+            t = random.randrange(1, len(tops))
+        else:
+            b = random.randrange(1, len(bots))
+    return jsonify(response_type="in_channel", text=("%s %s" % (tops[t], bots[b])).strip())
 
 @app.route("/like/<int:t>/<int:b>")
 def like(t, b):
