@@ -1,14 +1,11 @@
 #!/usr/bin/env python
 from flask import Flask, redirect, url_for, render_template, jsonify
-from porc import Client
 from humanize import intword
-from secrets import ORCHESTRATE_KEY
-import random
+from redis import Redis
+import random, os
 app = Flask(__name__)
 app.config["SERVER_NAME"] = "chopmotto.ml"
-orche = Client(ORCHESTRATE_KEY, "https://api.aws-eu-west-1.orchestrate.io/")
-orche.ping().raise_for_status()
-
+redis = Redis(db=int(os.getenv("REDIS_DB", 4)))
 tops = [""]
 bots = [""]
 
@@ -56,7 +53,8 @@ def api_slack():
 
 @app.route("/like/<int:t>/<int:b>")
 def like(t, b):
-    orche.post_event("quotes", "%i/%i"%(t,b), "liking", {})
+    if t in range(len(tops)) and b in range(len(bots)):
+        redis.incr("like:{}:{}".format(t, b))
     return redirect(url_for("smash", t=t, b=b, _external=True, _scheme="https"))
 
 @app.route("/<int:t>/<int:b>")
@@ -71,8 +69,8 @@ def smash(t=0, b=0):
     if t == b:
         return random.choice([redirect(url_for("smash", t=random.choice([x for x in range(1, len(tops)) if x != b]), b=b, _external=True, _scheme="https")), redirect(url_for("smash", t=t, b=random.choice([x for x in range(1, len(bots)) if x != t]),_external=True, _scheme="https"))])
     boom = "%s %s" % (tops[t], bots[b])
-    print(boom)
-    return render_template("home.html", ka=tops[t], boom=bots[b], t=t, b=b, l=len(orche.list_events("quotes", "%i/%i"%(t,b), "liking").all()), naturalsize=intword)
+    l = redis.get("like:{}:{}".format(t,b))
+    return render_template("home.html", ka=tops[t], boom=bots[b], t=t, b=b, l=0 if l is None else l, naturalsize=intword)
 
 @app.route("/")
 def cta():
