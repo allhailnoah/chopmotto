@@ -6,6 +6,9 @@ import random, os
 app = Flask(__name__)
 app.config["SERVER_NAME"] = "chopmotto.ml"
 redis = Redis(db=int(os.getenv("REDIS_DB", 4)))
+if "SENTRY_DSN" in os.environ:
+    from raven.contrib.flask import Sentry
+    sentry = Sentry(app, dsn=os.environ['SENTRY_DSN'])
 tops = [""]
 bots = [""]
 
