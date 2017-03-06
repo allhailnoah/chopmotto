@@ -73,7 +73,7 @@ def smash(t=0, b=0):
         return random.choice([redirect(url_for("smash", t=random.choice([x for x in range(1, len(tops)) if x != b]), b=b, _external=True, _scheme="https")), redirect(url_for("smash", t=t, b=random.choice([x for x in range(1, len(bots)) if x != t]),_external=True, _scheme="https"))])
     boom = "%s %s" % (tops[t], bots[b])
     l = redis.get("like:{}:{}".format(t,b))
-    return render_template("home.html", ka=tops[t], boom=bots[b], t=t, b=b, l=0 if l is None else l, naturalsize=intword)
+    return render_template("home.html", ka=tops[t], boom=bots[b], t=t, b=b, l=0 if l is None else int(l), naturalsize=intword)
 
 @app.route("/")
 def cta():
